@@ -15,8 +15,8 @@
     ],
     "minimum-stability": "stable",
     "autoload": {
-        "psr-4": {
-            "Playsms\\": "src/"
+        "psr-0": {
+            "Playsms": "src/"
         }
     }
 }
