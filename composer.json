@@ -2,6 +2,7 @@
     "name": "playsms/webservices",
     "description": "playSMS Webservices",
     "license": "MIT",
+    "version": "1.0.0",
     "authors": [
         {
             "name": "Anton Raharja",
