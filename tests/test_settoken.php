@@ -24,7 +24,6 @@
  * THE SOFTWARE.
  */
 
-
 include '../src/Playsms/Webservices.php';
 
 $ws = new Playsms\Webservices();
@@ -37,14 +36,13 @@ $response = $ws->getLastResponse();
 echo "getToken:\n";
 print_r($response)."\n";
 
-
 if (is_object($response)) {
 	if ($response->status == 'OK') {
 		$ws->token = $response->token;
-		$ws->getCredit();
-		$credit = $ws->getLastResponse();
-		echo "getCredit:\n";
-		print_r($credit)."\n";
+		$ws->setToken();
+		$response = $ws->getLastResponse();
+		echo "setToken:\n";
+		print_r($response)."\n";
 	} else {
 		echo "Auth failed\n";
 	}

@@ -82,22 +82,6 @@ class Webservices {
 	}
 
 	/**
-	 * Get webservices token. This operation can also be used as a login mechanism.
-	 * @return string
-	 */
-	public function getToken() {
-		$ws_url = $this->url;
-		$ws_url .= '&op=get_token';
-		$ws_url .= '&u='.$this->username;
-		$ws_url .= '&p='.$password = $this->password;
-		if ($this->format) {
-			$ws_url .= '&format='.$this->format;
-		}
-		$this->last_response = $this->_Fetch($ws_url);
-		return $this->last_response;
-	}
-
-	/**
 	 * Get user's credit
 	 * @return string
 	 */
@@ -112,4 +96,37 @@ class Webservices {
 		$this->last_response = $this->_Fetch($ws_url);
 		return $this->last_response;
 	}
+
+	/**
+	 * Get webservices token. This operation can also be used as a login mechanism.
+	 * @return string
+	 */
+	public function getToken() {
+		$ws_url = $this->url;
+		$ws_url .= '&op=get_token';
+		$ws_url .= '&u='.$this->username;
+		$ws_url .= '&p='.$this->password;
+		if ($this->format) {
+			$ws_url .= '&format='.$this->format;
+		}
+		$this->last_response = $this->_Fetch($ws_url);
+		return $this->last_response;
+	}
+
+	/**
+	 * Set new webservices token. This operation can also be used as a change password/token mechanism.
+	 * @return string
+	 */
+	public function setToken() {
+		$ws_url = $this->url;
+		$ws_url .= '&op=set_token';
+		$ws_url .= '&u='.$this->username;
+		$ws_url .= '&h='.$this->token;
+		if ($this->format) {
+			$ws_url .= '&format='.$this->format;
+		}
+		$this->last_response = $this->_Fetch($ws_url);
+		return $this->last_response;
+	}
+
 }
