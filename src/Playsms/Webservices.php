@@ -1,6 +1,5 @@
 <?php
 
-
 /*
  * The MIT License
  *

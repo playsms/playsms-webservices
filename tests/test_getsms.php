@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2014 dev.
+ * Copyright 2014 Anton Raharja <antonrd at gmail dot com>.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
