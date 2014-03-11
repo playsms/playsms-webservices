@@ -4,6 +4,10 @@ CHANGELOG
 Version 1.0.0
 -------------
 
-* first commit
-* add getToken() and getCredit()
+* add complete test files
+* add sendSms() and sendSmsToGroup()
+* add getPhonebookContacts() and getPhonebookGroups()
+* add getOutgoing(), getIncoming(), getInbox() adn getSandbox()
 * add setToken()
+* add getToken() and getCredit()
+* first commit
