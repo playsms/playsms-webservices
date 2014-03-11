@@ -34,6 +34,9 @@ namespace Playsms;
  */
 class Webservices extends Webservices_Parameters {
 
+	/**
+	 * This variable holds webservices response in JSON formatted string
+	 */
 	private $response;
 
 	/**
@@ -51,11 +54,11 @@ class Webservices extends Webservices_Parameters {
 	 * @return mixed
 	 */
 	public function getResponse() {
-		$object = '';
-		if ($this->response && (! $this->format || $this->format == 'json')) {
-			$object = json_decode($this->response);
+		$response = $this->response;
+		if ($this->response && ($this->format == 'json')) {
+			$response = json_decode($this->response);
 		}
-		return $object;
+		return $response;
 	}
 
 	/**
@@ -86,6 +89,94 @@ class Webservices extends Webservices_Parameters {
 	 */
 	public function getCredit() {
 		$this->operation = 'cr';
+		$this->setWebservicesUrl();
+		$this->response = $this->_Fetch();
+		return $this->response;
+	}
+
+	/**
+	 * Send SMS to mobile numbers
+	 * @return string
+	 */
+	public function sendSms() {
+		$this->operation = 'pv';
+		$this->setWebservicesUrl();
+		$this->response = $this->_Fetch();
+		return $this->response;
+	}
+
+	/**
+	 * Send SMS to groups
+	 * @return string
+	 */
+	public function sendSmsToGroup() {
+		$this->operation = 'bc';
+		$this->setWebservicesUrl();
+		$this->response = $this->_Fetch();
+		return $this->response;
+	}
+
+	/**
+	 * Get list of outgoing SMS and delivery statuses
+	 * @return string
+	 */
+	public function getOutgoing() {
+		$this->operation = 'ds';
+		$this->setWebservicesUrl();
+		$this->response = $this->_Fetch();
+		return $this->response;
+	}
+
+	/**
+	 * Get list of incoming SMS
+	 * @return string
+	 */
+	public function getIncoming() {
+		$this->operation = 'in';
+		$this->setWebservicesUrl();
+		$this->response = $this->_Fetch();
+		return $this->response;
+	}
+
+	/**
+	 * Get list of SMS in user's inbox
+	 * @return string
+	 */
+	public function getInbox() {
+		$this->operation = 'ix';
+		$this->setWebservicesUrl();
+		$this->response = $this->_Fetch();
+		return $this->response;
+	}
+
+	/**
+	 * Get list of SMS in Sandbox
+	 * @return string
+	 */
+	public function getSandbox() {
+		$this->operation = 'sx';
+		$this->setWebservicesUrl();
+		$this->response = $this->_Fetch();
+		return $this->response;
+	}
+
+	/**
+	 * Get list of phonebook contacts
+	 * @return string
+	 */
+	public function getPhonebookContacts() {
+		$this->operation = 'get_contact';
+		$this->setWebservicesUrl();
+		$this->response = $this->_Fetch();
+		return $this->response;
+	}
+
+	/**
+	 * Get list of phonebook groups
+	 * @return string
+	 */
+	public function getPhonebookGroups() {
+		$this->operation = 'get_contact_group';
 		$this->setWebservicesUrl();
 		$this->response = $this->_Fetch();
 		return $this->response;
