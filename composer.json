@@ -1,0 +1,21 @@
+{
+    "name": "playsms/webservices",
+    "description": "playSMS Webservices",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Anton Raharja",
+            "email": "antonrd@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "classmap": [
+            "src/Playsms_Parameters",
+            "src/Playsms"
+        ]
+    },
+    "require": {
+
+    }
+}
