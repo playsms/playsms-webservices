@@ -1,22 +1,22 @@
 {
     "name": "playsms/webservices",
-    "description": "playSMS Webservices",
+    "description": "playSMS Webservices Class",
+    "keywords": ["sms","playsms"],
+    "homepage": "http://github.com/antonraharja/playsms-webservices",
     "license": "MIT",
     "version": "1.0.0",
     "authors": [
         {
             "name": "Anton Raharja",
-            "email": "antonrd@gmail.com"
+            "email": "antonrd@gmail.com",
+	    "homepage": "http://antonraharja.com",
+	    "role": "Developer"
         }
     ],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "autoload": {
-        "classmap": [
-            "src/Playsms/Webservices_Parameters",
-            "src/Playsms/Webservices"
-        ]
-    },
-    "require": {
-
+        "psr-4": {
+            "Playsms\\": "src/"
+        }
     }
 }
