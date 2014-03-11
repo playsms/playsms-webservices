@@ -9,8 +9,8 @@
         {
             "name": "Anton Raharja",
             "email": "antonrd@gmail.com",
-	    "homepage": "http://antonraharja.com",
-	    "role": "Developer"
+            "homepage": "http://antonraharja.com",
+            "role": "Developer"
         }
     ],
     "minimum-stability": "stable",
