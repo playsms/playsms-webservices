@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * The MIT License
  *
  * Copyright 2014 dev.
@@ -40,11 +40,28 @@ print_r($response)."\n";
 if (is_object($response)) {
 	if ($response->status == 'OK') {
 		$ws->token = $response->token;
-		$ws->setToken();
-		$response = $ws->getResponse();
+		$ws->count = 3;
 
-		echo "setToken:\n";
+		$ws->getOutgoing();
+		$response = $ws->getResponse();
+		echo "Outgoing SMS:\n";
 		print_r($response)."\n";
+
+		$ws->getIncoming();
+		$response = $ws->getResponse();
+		echo "Incoming SMS:\n";
+		print_r($response)."\n";
+
+		$ws->getInbox();
+		$response = $ws->getResponse();
+		echo "Inbox SMS:\n";
+		print_r($response)."\n";
+
+		$ws->getSandbox();
+		$response = $ws->getResponse();
+		echo "Sandbox SMS:\n";
+		print_r($response)."\n";
+
 	} else {
 		echo "Auth failed\n";
 	}

@@ -32,7 +32,6 @@ $ws->url = 'http://localhost/playsms/index.php?app=ws';
 $ws->username = 'admin';
 $ws->password = 'admin';
 $ws->getToken();
-
 $response = $ws->getResponse();
 
 echo "getToken:\n";
@@ -42,11 +41,10 @@ if (is_object($response)) {
 	if ($response->status == 'OK') {
 		$ws->token = $response->token;
 		$ws->getCredit();
-
-		$credit = $ws->getResponse();
+		$response = $ws->getResponse();
 
 		echo "getCredit:\n";
-		print_r($credit)."\n";
+		print_r($response)."\n";
 	} else {
 		echo "Auth failed\n";
 	}

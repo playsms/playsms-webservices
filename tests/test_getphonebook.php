@@ -40,11 +40,20 @@ print_r($response)."\n";
 if (is_object($response)) {
 	if ($response->status == 'OK') {
 		$ws->token = $response->token;
-		$ws->setToken();
+		$ws->keyword = 'an';
+		$ws->count = 3;
+		$ws->getPhonebookContacts();
 		$response = $ws->getResponse();
 
-		echo "setToken:\n";
+		echo "Contacts:\n";
 		print_r($response)."\n";
+
+		$ws->getPhonebookContacts();
+		$response = $ws->getResponse();
+
+		echo "Groups:\n";
+		print_r($response)."\n";
+
 	} else {
 		echo "Auth failed\n";
 	}
