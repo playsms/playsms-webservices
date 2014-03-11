@@ -24,6 +24,7 @@
  * THE SOFTWARE.
  */
 
+include '../src/Playsms/Webservices_Parameters.php';
 include '../src/Playsms/Webservices.php';
 
 $ws = new Playsms\Webservices();
@@ -32,7 +33,8 @@ $ws->username = 'admin';
 $ws->password = 'admin';
 $ws->getToken();
 
-$response = $ws->getLastResponse();
+$response = $ws->getResponse();
+
 echo "getToken:\n";
 print_r($response)."\n";
 
@@ -40,7 +42,9 @@ if (is_object($response)) {
 	if ($response->status == 'OK') {
 		$ws->token = $response->token;
 		$ws->setToken();
-		$response = $ws->getLastResponse();
+
+		$response = $ws->getResponse();
+
 		echo "setToken:\n";
 		print_r($response)."\n";
 	} else {

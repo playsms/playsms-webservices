@@ -25,47 +25,24 @@
  * THE SOFTWARE.
  */
 
+namespace Playsms;
+
 /**
  * playSMS Webservices
  *
  * @author Anton Raharja
  */
+class Webservices extends Webservices_Parameters {
 
-namespace Playsms;
-
-class Webservices {
-
-	private $last_response;
-
-	public $url;
-	public $token;
-	public $username;
-	public $password;
-	public $operation;
-	public $format;
-	public $from;
-	public $to;
-	public $footer;
-	public $nofooter;
-	public $msg;
-	public $schedule;
-	public $type;
-	public $unicode;
-	public $queue;
-	public $src;
-	public $dst;
-	public $datetime;
-	public $smslog_id;
-	public $last_smslog_id;
-	public $count;
-	public $keyword;
+	private $response;
 
 	/**
 	 * Fetch content from URL
-	 * @param string $ws_url Webservices URL
+	 * @param string $query_string Webservices URL
 	 * @return string
 	 */
-	private function _Fetch($ws_url) {
+	private function _Fetch() {
+		$ws_url = $this->getWebservicesUrl();
 		return file_get_contents($ws_url);
 	}
 
@@ -73,28 +50,12 @@ class Webservices {
 	 * Get last response from last called method as an object
 	 * @return mixed
 	 */
-	public function getLastResponse() {
+	public function getResponse() {
 		$object = '';
-		if ($this->last_response && (! $this->format || $this->format == 'json')) {
-			$object = json_decode($this->last_response);
+		if ($this->response && (! $this->format || $this->format == 'json')) {
+			$object = json_decode($this->response);
 		}
 		return $object;
-	}
-
-	/**
-	 * Get user's credit
-	 * @return string
-	 */
-	public function getCredit() {
-		$ws_url = $this->url;
-		$ws_url .= '&op=cr';
-		$ws_url .= '&u='.$this->username;
-		$ws_url .= '&h='.$this->token;
-		if ($this->format) {
-			$ws_url .= '&format='.$this->format;
-		}
-		$this->last_response = $this->_Fetch($ws_url);
-		return $this->last_response;
 	}
 
 	/**
@@ -102,15 +63,10 @@ class Webservices {
 	 * @return string
 	 */
 	public function getToken() {
-		$ws_url = $this->url;
-		$ws_url .= '&op=get_token';
-		$ws_url .= '&u='.$this->username;
-		$ws_url .= '&p='.$this->password;
-		if ($this->format) {
-			$ws_url .= '&format='.$this->format;
-		}
-		$this->last_response = $this->_Fetch($ws_url);
-		return $this->last_response;
+		$this->operation = 'get_token';
+		$this->setWebservicesUrl();
+		$this->response = $this->_Fetch();
+		return $this->response;
 	}
 
 	/**
@@ -118,15 +74,21 @@ class Webservices {
 	 * @return string
 	 */
 	public function setToken() {
-		$ws_url = $this->url;
-		$ws_url .= '&op=set_token';
-		$ws_url .= '&u='.$this->username;
-		$ws_url .= '&h='.$this->token;
-		if ($this->format) {
-			$ws_url .= '&format='.$this->format;
-		}
-		$this->last_response = $this->_Fetch($ws_url);
-		return $this->last_response;
+		$this->operation = 'set_token';
+		$this->setWebservicesUrl();
+		$this->response = $this->_Fetch();
+		return $this->response;
+	}
+
+	/**
+	 * Get user's credit
+	 * @return string
+	 */
+	public function getCredit() {
+		$this->operation = 'cr';
+		$this->setWebservicesUrl();
+		$this->response = $this->_Fetch();
+		return $this->response;
 	}
 
 }

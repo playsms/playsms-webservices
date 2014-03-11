@@ -12,8 +12,8 @@
     "minimum-stability": "dev",
     "autoload": {
         "classmap": [
-            "src/Playsms_Parameters",
-            "src/Playsms"
+            "src/Playsms/Webservices_Parameters",
+            "src/Playsms/Webservices"
         ]
     },
     "require": {
