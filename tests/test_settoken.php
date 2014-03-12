@@ -24,7 +24,6 @@
  * THE SOFTWARE.
  */
 
-include '../src/Playsms/Webservices_Parameters.php';
 include '../src/Playsms/Webservices.php';
 
 $ws = new Playsms\Webservices();
