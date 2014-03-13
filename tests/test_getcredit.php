@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * The MIT License
  *
  * Copyright 2014 Anton Raharja <antonrd at gmail dot com>.
@@ -42,7 +42,7 @@ $response = $ws->getResponse();
 $data = $response->getData();
 $token = $data->token;
 if ($token) {
-	echo "Token: ".$token."\n";
+	echo "Token: " . $token . "\n";
 }
 
 if ($response->getStatus()) {
@@ -55,14 +55,13 @@ if ($response->getStatus()) {
 	if ($response->getStatus()) {
 		$data = $response->getData();
 		$credit = $data->credit;
-		echo "Remaining credit for user ".$ws->username.": ".$credit."\n";
+		echo "Remaining credit for user " . $ws->username . ": " . $credit . "\n";
 	} else {
 		echo "Unable to check user credit\n";
 	}
-
 } else {
-	echo "Error code: ".$response->getError()."\n";
-	echo "Error string: ".$response->getErrorString()."\n";
+	echo "Error code: " . $response->getError() . "\n";
+	echo "Error string: " . $response->getErrorString() . "\n";
 }
 
 echo "\n";

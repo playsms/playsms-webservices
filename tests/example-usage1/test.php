@@ -24,17 +24,17 @@ if ($response->getStatus()) {
 	$token = '';
 }
 
-echo "Status: ".$data->status."\n";
+echo "Status: " . $data->status . "\n";
 
 if ($response->getError()) {
-	echo "ERR: ".$response->getError()."\n";
+	echo "ERR: " . $response->getError() . "\n";
 	if ($response->getErrorString()) {
-		echo "ERR_STR: ".$response->getErrorString()."\n";
+		echo "ERR_STR: " . $response->getErrorString() . "\n";
 	}
 	exit();
 }
 
-echo "Token: ".$token."\n";
+echo "Token: " . $token . "\n";
 
 // get user's credit
 unset($response); // discard previous response
@@ -50,4 +50,4 @@ if ($response->getStatus()) {
 	$credit = 0;
 }
 
-echo "User credit: ".$credit."\n";
+echo "User credit: " . $credit . "\n";

@@ -37,7 +37,7 @@ $ws->password = 'donotchangeme';
 echo "\ngetToken\n\n";
 $ws->getToken();
 $response = $ws->getResponse()->getData();
-print_r($response)."\n";
+print_r($response) . "\n";
 
 if (is_object($response)) {
 	if ($response->status == 'OK') {
@@ -47,23 +47,22 @@ if (is_object($response)) {
 		$ws->getOutgoing();
 		$response = $ws->getResponse();
 		echo "Outgoing SMS:\n";
-		print_r($response)."\n";
+		print_r($response) . "\n";
 
 		$ws->getIncoming();
 		$response = $ws->getResponse();
 		echo "Incoming SMS:\n";
-		print_r($response)."\n";
+		print_r($response) . "\n";
 
 		$ws->getInbox();
 		$response = $ws->getResponse();
 		echo "Inbox SMS:\n";
-		print_r($response)."\n";
+		print_r($response) . "\n";
 
 		$ws->getSandbox();
 		$response = $ws->getResponse();
 		echo "Sandbox SMS:\n";
-		print_r($response)."\n";
-
+		print_r($response) . "\n";
 	} else {
 		echo "Auth failed\n";
 	}

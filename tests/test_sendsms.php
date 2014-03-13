@@ -37,19 +37,18 @@ $ws->password = 'donotchangeme';
 echo "\ngetToken\n\n";
 $ws->getToken();
 $response = $ws->getResponse()->getData();
-print_r($response)."\n";
+print_r($response) . "\n";
 
 if (is_object($response)) {
 	if ($response->status == 'OK') {
 		$ws->token = $response->token;
 		$ws->to = '0987654321,0987654322';
-		$ws->msg = 'This is a test from webservices '.mktime();
+		$ws->msg = 'This is a test from webservices ' . time();
 		$ws->sendSms();
 		$response = $ws->getResponse();
 
 		echo "Response:\n";
-		print_r($response)."\n";
-
+		print_r($response) . "\n";
 	} else {
 		echo "Auth failed\n";
 	}

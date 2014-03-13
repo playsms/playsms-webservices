@@ -44,32 +44,18 @@ class Webservices extends Webservices_Parameters {
 	 * @return string
 	 */
 	private function _Fetch() {
-		$ws_url = $this->getWebservicesUrl();
-		return file_get_contents($ws_url);
+		$content = file_get_contents($this->getWebservicesUrl());
+		return $content;
 	}
 
 	/**
 	 * Get last response from last called method as an object
-	 * @return object Webservices_Response
+	 * @return mixed boolean or Webservices_Response
 	 */
 	public function getResponse() {
-		$response = new Webservices_Response;
-		$response->setJson($this->response);
-		if ($this->response && ($this->format == 'json')) {
-			$c_response = json_decode($this->response);
-			$response->setData($c_response);
-			if ($c_response->status == 'OK') {
-				$response->setStatus(TRUE);
-			} else {
-				$response->setStatus(FALSE);
-			}
-			if ($c_response->error) {
-				$error = ( (int) $c_response->error > 0 ? (int) $c_response->error : 0 );
-				$response->setError($error);
-			}
-			if (isset($c_response->error_string)) {
-				$response->setErrorString($c_response->error_string);
-			}
+		$response = FALSE;
+		if ($this->response && $this->format == 'json') {
+			$response = new Webservices_Response($this->response);
 		}
 		return $response;
 	}
@@ -203,8 +189,8 @@ class Webservices extends Webservices_Parameters {
  * @author Anton Raharja
  */
 class Webservices_Parameters {
-	private $webservices_url;
 
+	private $webservices_url;
 	public $url;
 	public $token;
 	public $username;
@@ -247,91 +233,90 @@ class Webservices_Parameters {
 		}
 
 		if ($this->token) {
-			$ws_url .= '&h='.$this->token;
+			$ws_url .= '&h=' . $this->token;
 		}
 
 		if ($this->username) {
-			$ws_url .= '&u='.$this->username;
+			$ws_url .= '&u=' . $this->username;
 		}
 
 		if ($this->password) {
-			$ws_url .= '&p='.$this->password;
+			$ws_url .= '&p=' . $this->password;
 		}
 
 		if ($this->operation) {
-			$ws_url .= '&op='.$this->operation;
+			$ws_url .= '&op=' . $this->operation;
 		}
 
 		if ($this->format) {
-			$ws_url .= '&format='.$this->format;
+			$ws_url .= '&format=' . $this->format;
 		} else {
 			$this->format = 'json';
 			$ws_url .= '&format=json';
-
 		}
 
 		if ($this->from) {
-			$ws_url .= '&from='.$this->from;
+			$ws_url .= '&from=' . $this->from;
 		}
 
 		if ($this->to) {
-			$ws_url .= '&to='.$this->to;
+			$ws_url .= '&to=' . $this->to;
 		}
 
 		if ($this->footer) {
-			$ws_url .= '&footer='.$this->footer;
+			$ws_url .= '&footer=' . $this->footer;
 		}
 
 		if ($this->nofooter) {
-			$ws_url .= '&nofooter='.$this->nofooter;
+			$ws_url .= '&nofooter=' . $this->nofooter;
 		}
 
 		if ($this->msg) {
-			$ws_url .= '&msg='.$this->msg;
+			$ws_url .= '&msg=' . $this->msg;
 		}
 
 		if ($this->schedule) {
-			$ws_url .= '&schedule='.$this->schedule;
+			$ws_url .= '&schedule=' . $this->schedule;
 		}
 
 		if ($this->type) {
-			$ws_url .= '&type='.$this->type;
+			$ws_url .= '&type=' . $this->type;
 		}
 
 		if ($this->unicode) {
-			$ws_url .= '&unicode='.$this->unicode;
+			$ws_url .= '&unicode=' . $this->unicode;
 		}
 
 		if ($this->queue) {
-			$ws_url .= '&queue='.$this->queue;
+			$ws_url .= '&queue=' . $this->queue;
 		}
 
 		if ($this->src) {
-			$ws_url .= '&src='.$this->src;
+			$ws_url .= '&src=' . $this->src;
 		}
 
 		if ($this->dst) {
-			$ws_url .= '&dst='.$this->dst;
+			$ws_url .= '&dst=' . $this->dst;
 		}
 
 		if ($this->datetime) {
-			$ws_url .= '&dt='.$this->datetime;
+			$ws_url .= '&dt=' . $this->datetime;
 		}
 
 		if ($this->smslog_id) {
-			$ws_url .= '&smslog_id='.$this->smslog_id;
+			$ws_url .= '&smslog_id=' . $this->smslog_id;
 		}
 
 		if ($this->last_smslog_id) {
-			$ws_url .= '&last='.$this->last_smslog_id;
+			$ws_url .= '&last=' . $this->last_smslog_id;
 		}
 
 		if ($this->count) {
-			$ws_url .= '&c='.$this->count;
+			$ws_url .= '&c=' . $this->count;
 		}
 
 		if ($this->keyword) {
-			$ws_url .= '&kwd='.$this->keyword;
+			$ws_url .= '&kwd=' . $this->keyword;
 		}
 
 		$this->webservices_url = $ws_url;
@@ -345,50 +330,63 @@ class Webservices_Parameters {
  * @author Anton Raharja
  */
 class Webservices_Response {
+
+	private $json;
+	private $data;
 	private $status;
 	private $error;
 	private $error_string;
-	private $data;
-	private $json;
 
-	public function getStatus() {
-		return $this->status;
+	public function __construct($param) {
+		$this->json = $param;
+		$this->data = json_decode($this->json);
+		if ($this->data->status == 'OK') {
+			$this->status = TRUE;
+		} else {
+			$this->status = FALSE;
+		}
+		$this->error = ( (int) $this->data->error > 0 ? (int) $this->data->error : 0 );
+		$this->error_string = $this->data->error_string;
 	}
 
-	public function getError() {
-		return $this->error;
-	}
-
-	public function getErrorString() {
-		return $this->error_string;
-	}
-
-	public function getData() {
-		return $this->data;
-	}
-
+	/**
+	 * Get raw JSON data
+	 * @return string
+	 */
 	public function getJson() {
 		return $this->json;
 	}
 
-	public function setStatus($status) {
-		$this->status = $status;
+	/**
+	 * Get JSON decoded data as an object
+	 * @return object
+	 */
+	public function getData() {
+		return $this->data;
 	}
 
-	public function setError($error) {
-		$this->error = $error;
+	/**
+	 * Get status
+	 * @return boolean
+	 */
+	public function getStatus() {
+		return $this->status;
 	}
 
-	public function setErrorString($error_string) {
-		$this->error_string = $error_string;
+	/**
+	 * Get error code
+	 * @return integer
+	 */
+	public function getError() {
+		return $this->error;
 	}
 
-	public function setData($data) {
-		$this->data = $data;
-	}
-
-	public function setJson($json) {
-		$this->json = $json;
+	/**
+	 * Get error string
+	 * @return string
+	 */
+	public function getErrorString() {
+		return $this->error_string;
 	}
 
 }

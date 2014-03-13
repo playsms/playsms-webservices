@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * The MIT License
  *
  * Copyright 2014 Anton Raharja <antonrd at gmail dot com>.
@@ -37,7 +37,7 @@ $ws->password = 'donotchangeme';
 echo "\ngetToken\n\n";
 $ws->getToken();
 $response = $ws->getResponse()->getData();
-print_r($response)."\n";
+print_r($response) . "\n";
 
 if (is_object($response)) {
 	if ($response->status == 'OK') {
@@ -48,14 +48,13 @@ if (is_object($response)) {
 		$response = $ws->getResponse();
 
 		echo "Contacts:\n";
-		print_r($response)."\n";
+		print_r($response) . "\n";
 
 		$ws->getPhonebookContacts();
 		$response = $ws->getResponse();
 
 		echo "Groups:\n";
-		print_r($response)."\n";
-
+		print_r($response) . "\n";
 	} else {
 		echo "Auth failed\n";
 	}
