@@ -1,6 +1,6 @@
 {
     "name": "playsms/webservices",
-    "description": "playSMS FOSS SMS portal webservices class",
+    "description": "playSMS Webservices Class. playSMS is a free and open source SMS portal software.",
     "keywords": ["sms","playsms","bulk","webservices"],
     "homepage": "http://github.com/antonraharja/playsms-webservices",
     "license": "MIT",

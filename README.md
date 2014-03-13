@@ -10,4 +10,6 @@ Version          | 1.0.0
 Release date     | 140311
 API compatibilty | playSMS version 0.9.9.2, 1.0.0
 
-For usage instruction and examples please see [tests] folder.
+For usage instruction and examples please see **tests** folder.
+
+More documents can be found in **docs** folder.
