@@ -16,19 +16,20 @@ $ws->password = 'donotchangeme';
 // get token from username and password
 $get_token = $ws->getToken();
 $response = $ws->getResponse();
+$data = $response->getData();
 
-if ($response->status == 'OK') {
-	$token = $response->token;
+if ($response->getStatus()) {
+	$token = $data->token;
 } else {
 	$token = '';
 }
 
-echo "Status: ".$response->status."\n";
+echo "Status: ".$data->status."\n";
 
-if ($response->error) {
-	echo "ERR: ".$response->error."\n";
-	if ($response->error_string) {
-		echo "ERR_STR: ".$error_string."\n";
+if ($response->getError()) {
+	echo "ERR: ".$response->getError()."\n";
+	if ($response->getErrorString()) {
+		echo "ERR_STR: ".$response->getErrorString()."\n";
 	}
 	exit();
 }
@@ -37,15 +38,16 @@ echo "Token: ".$token."\n";
 
 // get user's credit
 unset($response); // discard previous response
+unset($data); // discard previous data
 $ws->token = $token;
 $ws->getCredit();
 $response = $ws->getResponse();
+$data = $response->getData();
 
-if ($response->status == 'OK') {
-	$credit = $response->credit;
+if ($response->getStatus()) {
+	$credit = $data->credit;
 } else {
 	$credit = 0;
 }
 
 echo "User credit: ".$credit."\n";
-

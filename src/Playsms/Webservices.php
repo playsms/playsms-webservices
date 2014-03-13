@@ -50,12 +50,26 @@ class Webservices extends Webservices_Parameters {
 
 	/**
 	 * Get last response from last called method as an object
-	 * @return mixed
+	 * @return object Webservices_Response
 	 */
 	public function getResponse() {
-		$response = $this->response;
+		$response = new Webservices_Response;
+		$response->setJson($this->response);
 		if ($this->response && ($this->format == 'json')) {
-			$response = json_decode($this->response);
+			$c_response = json_decode($this->response);
+			$response->setData($c_response);
+			if ($c_response->status == 'OK') {
+				$response->setStatus(TRUE);
+			} else {
+				$response->setStatus(FALSE);
+			}
+			if ($c_response->error) {
+				$error = ( (int) $c_response->error > 0 ? (int) $c_response->error : 0 );
+				$response->setError($error);
+			}
+			if (isset($c_response->error_string)) {
+				$response->setErrorString($c_response->error_string);
+			}
 		}
 		return $response;
 	}
@@ -321,6 +335,60 @@ class Webservices_Parameters {
 		}
 
 		$this->webservices_url = $ws_url;
+	}
+
+}
+
+/**
+ * playSMS Webservices response object
+ *
+ * @author Anton Raharja
+ */
+class Webservices_Response {
+	private $status;
+	private $error;
+	private $error_string;
+	private $data;
+	private $json;
+
+	public function getStatus() {
+		return $this->status;
+	}
+
+	public function getError() {
+		return $this->error;
+	}
+
+	public function getErrorString() {
+		return $this->error_string;
+	}
+
+	public function getData() {
+		return $this->data;
+	}
+
+	public function getJson() {
+		return $this->json;
+	}
+
+	public function setStatus($status) {
+		$this->status = $status;
+	}
+
+	public function setError($error) {
+		$this->error = $error;
+	}
+
+	public function setErrorString($error_string) {
+		$this->error_string = $error_string;
+	}
+
+	public function setData($data) {
+		$this->data = $data;
+	}
+
+	public function setJson($json) {
+		$this->json = $json;
 	}
 
 }

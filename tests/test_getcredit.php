@@ -26,27 +26,43 @@
 
 include '../src/Playsms/Webservices.php';
 
+error_reporting(E_ALL ^ E_NOTICE);
+
 $ws = new Playsms\Webservices();
-$ws->url = 'http://localhost/playsms/index.php?app=ws';
+
+$ws->url = 'http://playsms.org/trial/index.php?app=ws';
 $ws->username = 'admin';
-$ws->password = 'admin';
+$ws->password = 'donotchangeme';
+
+echo "\ngetToken\n\n";
 $ws->getToken();
 $response = $ws->getResponse();
+//print_r($response)."\n";
 
-echo "getToken:\n";
-print_r($response)."\n";
-
-if (is_object($response)) {
-	if ($response->status == 'OK') {
-		$ws->token = $response->token;
-		$ws->getCredit();
-		$response = $ws->getResponse();
-
-		echo "getCredit:\n";
-		print_r($response)."\n";
-	} else {
-		echo "Auth failed\n";
-	}
-} else {
-	echo "Failed\n";
+$data = $response->getData();
+$token = $data->token;
+if ($token) {
+	echo "Token: ".$token."\n";
 }
+
+if ($response->getStatus()) {
+
+	echo "\n\ngetCredit\n\n";
+	unset($response);
+	$ws->token = $token;
+	$ws->getCredit();
+	$response = $ws->getResponse();
+	if ($response->getStatus()) {
+		$data = $response->getData();
+		$credit = $data->credit;
+		echo "Remaining credit for user ".$ws->username.": ".$credit."\n";
+	} else {
+		echo "Unable to check user credit\n";
+	}
+
+} else {
+	echo "Error code: ".$response->getError()."\n";
+	echo "Error string: ".$response->getErrorString()."\n";
+}
+
+echo "\n";

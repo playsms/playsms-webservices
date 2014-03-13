@@ -26,14 +26,17 @@
 
 include '../src/Playsms/Webservices.php';
 
-$ws = new Playsms\Webservices();
-$ws->url = 'http://localhost/playsms/index.php?app=ws';
-$ws->username = 'admin';
-$ws->password = 'admin';
-$ws->getToken();
-$response = $ws->getResponse();
+error_reporting(E_ALL ^ E_NOTICE);
 
-echo "getToken:\n";
+$ws = new Playsms\Webservices();
+
+$ws->url = 'http://playsms.org/trial/index.php?app=ws';
+$ws->username = 'admin';
+$ws->password = 'donotchangeme';
+
+echo "\ngetToken\n\n";
+$ws->getToken();
+$response = $ws->getResponse()->getData();
 print_r($response)."\n";
 
 if (is_object($response)) {
