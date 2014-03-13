@@ -1,5 +1,5 @@
 {
     "require": {
-        "playsms/webservices": "1.0.0"
+        "playsms/webservices": "1.*"
     }
 }
