@@ -50,7 +50,6 @@ class Webservices {
 	public $username;
 	public $password;
 	public $operation;
-	public $format;
 	public $from;
 	public $to;
 	public $footer;
@@ -82,27 +81,21 @@ class Webservices {
 	 * Process and populate class for results
 	 */
 	private function _Populate() {
-		if ($this->response && $this->format == 'json') {
-			$this->data = json_decode($this->response);
-			if ($this->data->status == 'OK') {
-				$this->status = TRUE;
-			} else {
-				$this->status = FALSE;
-			}
-			$this->error = ( (int) $this->data->error > 0 ? (int) $this->data->error : 0 );
-			$this->error_string = $this->data->error_string;
+		$this->data = json_decode($this->response);
+		if ($this->data->status == 'OK') {
+			$this->status = TRUE;
+		} else {
+			$this->status = FALSE;
 		}
+		$this->error = ( (int) $this->data->error > 0 ? (int) $this->data->error : 0 );
+		$this->error_string = $this->data->error_string;
 	}
 
 	/**
 	 * Build a complete webservices URL
 	 */
 	private function _setWebservicesUrl() {
-		$ws_url = '';
-
-		if ($this->url) {
-			$ws_url .= $this->url;
-		}
+		$ws_url = $this->url.'&format=json';
 
 		if ($this->token) {
 			$ws_url .= '&h=' . $this->token;
@@ -118,13 +111,6 @@ class Webservices {
 
 		if ($this->operation) {
 			$ws_url .= '&op=' . $this->operation;
-		}
-
-		if ($this->format) {
-			$ws_url .= '&format=' . $this->format;
-		} else {
-			$this->format = 'json';
-			$ws_url .= '&format=json';
 		}
 
 		if ($this->from) {
