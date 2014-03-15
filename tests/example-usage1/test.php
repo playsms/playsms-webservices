@@ -17,10 +17,8 @@ $ws->password = 'donotchangeme';
 $ws->getToken();
 
 if (! $ws->getStatus()) {
-	echo "ERR: " . $ws->getError() . "\n";
-	if ($ws->getErrorString()) {
-		echo "ERR_STR: " . $ws->getErrorString() . "\n";
-	}
+	echo "Error code: " . $ws->getError() . "\n";
+	echo "Error string: " . $ws->getErrorString() . "\n";
 	exit();
 }
 
@@ -29,11 +27,6 @@ echo "Token: " . $ws->getData()->token . "\n";
 // get user's credit
 $ws->token = $ws->getData()->token;
 $ws->getCredit();
-
-if ($ws->getStatus()) {
-	$credit = $ws->getData()->credit;
-} else {
-	$credit = 0;
-}
+$credit = ( $ws->getStatus ? $ws->getData()->credit : 0 );
 
 echo "User credit: " . $credit . "\n";
