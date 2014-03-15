@@ -31,166 +31,20 @@ namespace Playsms;
  *
  * @author Anton Raharja
  */
-class Webservices extends Webservices_Parameters {
+class Webservices {
 
-	/**
-	 * This variable holds webservices response in JSON formatted string
-	 */
-	private $response;
-
-	/**
-	 * Fetch content from URL
-	 * @param string $query_string Webservices URL
-	 * @return string
-	 */
-	private function _Fetch() {
-		$content = file_get_contents($this->getWebservicesUrl());
-		return $content;
-	}
-
-	/**
-	 * Get last response from last called method as an object
-	 * @return mixed boolean or Webservices_Response
-	 */
-	public function getResponse() {
-		$response = FALSE;
-		if ($this->response && $this->format == 'json') {
-			$response = new Webservices_Response($this->response);
-		}
-		return $response;
-	}
-
-	/**
-	 * Get webservices token. This operation can also be used as a login mechanism.
-	 * @return string
-	 */
-	public function getToken() {
-		$this->operation = 'get_token';
-		$this->setWebservicesUrl();
-		$this->response = $this->_Fetch();
-		return $this->response;
-	}
-
-	/**
-	 * Set new webservices token. This operation can also be used as a change password/token mechanism.
-	 * @return string
-	 */
-	public function setToken() {
-		$this->operation = 'set_token';
-		$this->setWebservicesUrl();
-		$this->response = $this->_Fetch();
-		return $this->response;
-	}
-
-	/**
-	 * Get user's credit
-	 * @return string
-	 */
-	public function getCredit() {
-		$this->operation = 'cr';
-		$this->setWebservicesUrl();
-		$this->response = $this->_Fetch();
-		return $this->response;
-	}
-
-	/**
-	 * Send SMS to mobile numbers
-	 * @return string
-	 */
-	public function sendSms() {
-		$this->operation = 'pv';
-		$this->setWebservicesUrl();
-		$this->response = $this->_Fetch();
-		return $this->response;
-	}
-
-	/**
-	 * Send SMS to groups
-	 * @return string
-	 */
-	public function sendSmsToGroup() {
-		$this->operation = 'bc';
-		$this->setWebservicesUrl();
-		$this->response = $this->_Fetch();
-		return $this->response;
-	}
-
-	/**
-	 * Get list of outgoing SMS and delivery statuses
-	 * @return string
-	 */
-	public function getOutgoing() {
-		$this->operation = 'ds';
-		$this->setWebservicesUrl();
-		$this->response = $this->_Fetch();
-		return $this->response;
-	}
-
-	/**
-	 * Get list of incoming SMS
-	 * @return string
-	 */
-	public function getIncoming() {
-		$this->operation = 'in';
-		$this->setWebservicesUrl();
-		$this->response = $this->_Fetch();
-		return $this->response;
-	}
-
-	/**
-	 * Get list of SMS in user's inbox
-	 * @return string
-	 */
-	public function getInbox() {
-		$this->operation = 'ix';
-		$this->setWebservicesUrl();
-		$this->response = $this->_Fetch();
-		return $this->response;
-	}
-
-	/**
-	 * Get list of SMS in Sandbox
-	 * @return string
-	 */
-	public function getSandbox() {
-		$this->operation = 'sx';
-		$this->setWebservicesUrl();
-		$this->response = $this->_Fetch();
-		return $this->response;
-	}
-
-	/**
-	 * Get list of phonebook contacts
-	 * @return string
-	 */
-	public function getPhonebookContacts() {
-		$this->operation = 'get_contact';
-		$this->setWebservicesUrl();
-		$this->response = $this->_Fetch();
-		return $this->response;
-	}
-
-	/**
-	 * Get list of phonebook groups
-	 * @return string
-	 */
-	public function getPhonebookGroups() {
-		$this->operation = 'get_contact_group';
-		$this->setWebservicesUrl();
-		$this->response = $this->_Fetch();
-		return $this->response;
-	}
-
-}
-
-/**
- * playSMS Webservices parameters
- *
- * @author Anton Raharja
- */
-class Webservices_Parameters {
+	// playSMS Webservices operation results
 
 	private $webservices_url;
+	private $response;
+	private $data;
+	private $status;
+	private $error;
+	private $error_string;
+
+
+	// playSMS Webservices operation parameters
+
 	public $url;
 	public $token;
 	public $username;
@@ -214,18 +68,36 @@ class Webservices_Parameters {
 	public $count;
 	public $keyword;
 
+
 	/**
-	 * Get current webservices URL
-	 * @return string
+	 * Fetch content from URL
+	 * @param string $query_string Webservices URL
 	 */
-	public function getWebservicesUrl() {
-		return $this->webservices_url;
+	private function _Fetch() {
+		$this->_setWebservicesUrl();
+		$this->response = file_get_contents($this->getWebservicesUrl());
+	}
+
+	/**
+	 * Process and populate class for results
+	 */
+	private function _Populate() {
+		if ($this->response && $this->format == 'json') {
+			$this->data = json_decode($this->response);
+			if ($this->data->status == 'OK') {
+				$this->status = TRUE;
+			} else {
+				$this->status = FALSE;
+			}
+			$this->error = ( (int) $this->data->error > 0 ? (int) $this->data->error : 0 );
+			$this->error_string = $this->data->error_string;
+		}
 	}
 
 	/**
 	 * Build a complete webservices URL
 	 */
-	public function setWebservicesUrl() {
+	private function _setWebservicesUrl() {
 		$ws_url = '';
 
 		if ($this->url) {
@@ -322,39 +194,20 @@ class Webservices_Parameters {
 		$this->webservices_url = $ws_url;
 	}
 
-}
-
-/**
- * playSMS Webservices response object
- *
- * @author Anton Raharja
- */
-class Webservices_Response {
-
-	private $json;
-	private $data;
-	private $status;
-	private $error;
-	private $error_string;
-
-	public function __construct($param) {
-		$this->json = $param;
-		$this->data = json_decode($this->json);
-		if ($this->data->status == 'OK') {
-			$this->status = TRUE;
-		} else {
-			$this->status = FALSE;
-		}
-		$this->error = ( (int) $this->data->error > 0 ? (int) $this->data->error : 0 );
-		$this->error_string = $this->data->error_string;
+	/**
+	 * Get current webservices URL
+	 * @return string
+	 */
+	public function getWebservicesUrl() {
+		return $this->webservices_url;
 	}
 
 	/**
-	 * Get raw JSON data
+	 * Get raw response data
 	 * @return string
 	 */
-	public function getJson() {
-		return $this->json;
+	public function getResponse() {
+		return $this->response;
 	}
 
 	/**
@@ -387,6 +240,119 @@ class Webservices_Response {
 	 */
 	public function getErrorString() {
 		return $this->error_string;
+	}
+
+
+	// playSMS Webservices operations
+
+	/**
+	 * Get webservices token. This operation can also be used as a login mechanism.
+	 * @return mixed
+	 */
+	public function getToken() {
+		$this->operation = 'get_token';
+		$this->_Fetch();
+		return $this->_Populate();
+	}
+
+	/**
+	 * Set new webservices token. This operation can also be used as a change password/token mechanism.
+	 * @return mixed
+	 */
+	public function setToken() {
+		$this->operation = 'set_token';
+		$this->_Fetch();
+		return $this->_Populate();
+	}
+
+	/**
+	 * Get user's credit
+	 * @return mixed
+	 */
+	public function getCredit() {
+		$this->operation = 'cr';
+		$this->_Fetch();
+		return $this->_Populate();
+	}
+
+	/**
+	 * Send SMS to mobile numbers
+	 * @return mixed
+	 */
+	public function sendSms() {
+		$this->operation = 'pv';
+		$this->_Fetch();
+		return $this->_Populate();
+	}
+
+	/**
+	 * Send SMS to groups
+	 * @return mixed
+	 */
+	public function sendSmsToGroup() {
+		$this->operation = 'bc';
+		$this->_Fetch();
+		return $this->_Populate();
+	}
+
+	/**
+	 * Get list of outgoing SMS and delivery statuses
+	 * @return mixed
+	 */
+	public function getOutgoing() {
+		$this->operation = 'ds';
+		$this->_Fetch();
+		return $this->_Populate();
+	}
+
+	/**
+	 * Get list of incoming SMS
+	 * @return mixed
+	 */
+	public function getIncoming() {
+		$this->operation = 'in';
+		$this->_Fetch();
+		return $this->_Populate();
+	}
+
+	/**
+	 * Get list of SMS in user's inbox
+	 * @return mixed
+	 */
+	public function getInbox() {
+		$this->operation = 'ix';
+		$this->_Fetch();
+		return $this->_Populate();
+	}
+
+	/**
+	 * Get list of SMS in Sandbox
+	 * @return mixed
+	 */
+	public function getSandbox() {
+		$this->operation = 'sx';
+		$this->_Fetch();
+		return $this->_Populate();
+	}
+
+	/**
+	 * Get list of phonebook contacts
+	 * @return mixed
+	 */
+	public function getPhonebookContacts() {
+		$this->operation = 'get_contact';
+		$this->_Fetch();
+		return $this->_Populate();
+	}
+
+	/**
+	 * Get list of phonebook groups
+	 * @return mixed
+	 */
+	public function getPhonebookGroups() {
+		$this->operation = 'get_contact_group';
+		$this->_Fetch();
+		return $this->_Populate();
 	}
 
 }

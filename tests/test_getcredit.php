@@ -1,29 +1,5 @@
 <?php
 
-/*
- * The MIT License
- *
- * Copyright 2014 Anton Raharja <antonrd at gmail dot com>.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
 include '../src/Playsms/Webservices.php';
 
 error_reporting(E_ALL ^ E_NOTICE);
@@ -34,34 +10,28 @@ $ws->url = 'http://playsms.org/trial/index.php?app=ws';
 $ws->username = 'admin';
 $ws->password = 'donotchangeme';
 
-echo "\ngetToken\n\n";
+echo "\ngetToken\n";
 $ws->getToken();
-$response = $ws->getResponse();
-//print_r($response)."\n";
+print_r($ws->getData());
 
-$data = $response->getData();
-$token = $data->token;
-if ($token) {
-	echo "Token: " . $token . "\n";
-}
+echo "\n";
 
-if ($response->getStatus()) {
+if ($ws->getStatus()) {
 
-	echo "\n\ngetCredit\n\n";
-	unset($response);
-	$ws->token = $token;
+	$ws->token = $ws->getData()->token;
+
+	echo "Credit\n\n";
 	$ws->getCredit();
-	$response = $ws->getResponse();
-	if ($response->getStatus()) {
-		$data = $response->getData();
-		$credit = $data->credit;
+	if ($ws->getStatus()) {
+		$credit = $ws->getData()->credit;
 		echo "Remaining credit for user " . $ws->username . ": " . $credit . "\n";
 	} else {
 		echo "Unable to check user credit\n";
 	}
+
 } else {
-	echo "Error code: " . $response->getError() . "\n";
-	echo "Error string: " . $response->getErrorString() . "\n";
+	echo "Error code: " . $ws->getError() . "\n";
+	echo "Error string: " . $ws->getErrorString() . "\n";
 }
 
 echo "\n";

@@ -14,38 +14,24 @@ $ws->username = 'admin';
 $ws->password = 'donotchangeme';
 
 // get token from username and password
-$get_token = $ws->getToken();
-$response = $ws->getResponse();
-$data = $response->getData();
+$ws->getToken();
 
-if ($response->getStatus()) {
-	$token = $data->token;
-} else {
-	$token = '';
-}
-
-echo "Status: " . $data->status . "\n";
-
-if ($response->getError()) {
-	echo "ERR: " . $response->getError() . "\n";
-	if ($response->getErrorString()) {
-		echo "ERR_STR: " . $response->getErrorString() . "\n";
+if (! $ws->getStatus()) {
+	echo "ERR: " . $ws->getError() . "\n";
+	if ($ws->getErrorString()) {
+		echo "ERR_STR: " . $ws->getErrorString() . "\n";
 	}
 	exit();
 }
 
-echo "Token: " . $token . "\n";
+echo "Token: " . $ws->getData()->token . "\n";
 
 // get user's credit
-unset($response); // discard previous response
-unset($data); // discard previous data
-$ws->token = $token;
+$ws->token = $ws->getData()->token;
 $ws->getCredit();
-$response = $ws->getResponse();
-$data = $response->getData();
 
-if ($response->getStatus()) {
-	$credit = $data->credit;
+if ($ws->getStatus()) {
+	$credit = $ws->getData()->credit;
 } else {
 	$credit = 0;
 }
