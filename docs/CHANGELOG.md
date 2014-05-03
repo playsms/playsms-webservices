@@ -1,6 +1,15 @@
 CHANGELOG
 =========
 
+Version 1.0.3
+-------------
+
+* urlencode most variable on _setWebservicesUrl()
+* run _setWebservicesUrl() on getWebservicesUrl()
+
+Version 1.0.2
+-------------
+
 Version 1.0.1
 -------------
 

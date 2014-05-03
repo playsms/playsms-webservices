@@ -114,15 +114,15 @@ class Webservices {
 		}
 
 		if ($this->from) {
-			$ws_url .= '&from=' . $this->from;
+			$ws_url .= '&from=' . urlencode($this->from);
 		}
 
 		if ($this->to) {
-			$ws_url .= '&to=' . $this->to;
+			$ws_url .= '&to=' . urlencode($this->to);
 		}
 
 		if ($this->footer) {
-			$ws_url .= '&footer=' . $this->footer;
+			$ws_url .= '&footer=' . urlencode($this->footer);
 		}
 
 		if ($this->nofooter) {
@@ -130,7 +130,7 @@ class Webservices {
 		}
 
 		if ($this->msg) {
-			$ws_url .= '&msg=' . $this->msg;
+			$ws_url .= '&msg=' . urlencode($this->msg);
 		}
 
 		if ($this->schedule) {
@@ -150,11 +150,11 @@ class Webservices {
 		}
 
 		if ($this->src) {
-			$ws_url .= '&src=' . $this->src;
+			$ws_url .= '&src=' . urlencode($this->src);
 		}
 
 		if ($this->dst) {
-			$ws_url .= '&dst=' . $this->dst;
+			$ws_url .= '&dst=' . urlencode($this->dst);
 		}
 
 		if ($this->datetime) {
@@ -174,7 +174,7 @@ class Webservices {
 		}
 
 		if ($this->keyword) {
-			$ws_url .= '&kwd=' . $this->keyword;
+			$ws_url .= '&kwd=' . urlencode($this->keyword);
 		}
 
 		$this->webservices_url = $ws_url;
@@ -185,6 +185,8 @@ class Webservices {
 	 * @return string
 	 */
 	public function getWebservicesUrl() {
+		$this->_setWebservicesUrl();
+		
 		return $this->webservices_url;
 	}
 
