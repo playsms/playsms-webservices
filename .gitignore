@@ -1,6 +1,7 @@
 docs/_build/
 vendor/*
 composer.phar
+composer.lock
 coverage
 package.xml
 *.tgz
@@ -14,3 +15,19 @@ nbproject
 
 # This is used by the documentation generator
 venv
+
+.git
+.gitignore
+*~
+.buildpath
+.settings
+.project
+.codio
+
+web/config.php
+web/lib/composer
+
+install.conf
+install.conf.backup
+
+.svn
