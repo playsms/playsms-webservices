@@ -5,5 +5,10 @@ $ws->to = $_POST['to'];
 $ws->msg = $_POST['msg'];
 $ws->sendSms();
 
-header('Location: success.html');
+if ($ws->getStatus()) {
+	header('Location: success.html');
+} else {
+	header('Location: error_send.html');
+}
+
 exit();
