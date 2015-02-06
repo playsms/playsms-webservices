@@ -6,9 +6,9 @@ playSMS PHP class for accessing playSMS webservices.
 Information      | Description
 ---------------- | ----------------
 Author           | Anton Raharja
-Version          | 1.0.3
-Release date     | 140503
-API compatibilty | playSMS version 0.9.9.2, 1.0.0-beta
+Version          | 1.0.4
+Release date     | 150206
+API compatibilty | 1.0.0-rc4 and above
 
 For usage instruction and examples please see **tests** folder.
 

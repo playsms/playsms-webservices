@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+Version 1.0.4
+-------------
+
+* fix getStatus() to reflect correct request status
+
 Version 1.0.3
 -------------
 
