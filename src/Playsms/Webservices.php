@@ -82,11 +82,15 @@ class Webservices {
 	 */
 	private function _Populate() {
 		$this->data = json_decode($this->response);
-		if ($this->data->status == 'OK') {
-			$this->status = TRUE;
-		} else {
+		
+		// getStatus() FALSE upon receiving status ERR and a non-zero error
+		// else set as TRUE
+		if (($this->data->status == 'ERR') && ((int) $this->data->error > 0)) {
 			$this->status = FALSE;
+		} else {
+			$this->status = TRUE;
 		}
+
 		$this->error = ( (int) $this->data->error > 0 ? (int) $this->data->error : 0 );
 		$this->error_string = $this->data->error_string;
 	}
