@@ -74,7 +74,9 @@ class Webservices {
 	 */
 	private function _Fetch() {
 		$this->_setWebservicesUrl();
-		$this->response = file_get_contents($this->getWebservicesUrl());
+
+		$response = @file_get_contents($this->getWebservicesUrl());
+		$this->response = $response;
 	}
 
 	/**
