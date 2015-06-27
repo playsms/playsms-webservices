@@ -85,14 +85,27 @@ class Webservices {
 		
 		// getStatus() FALSE upon receiving status ERR and a non-zero error
 		// else set as TRUE
-		if (($this->data->status == 'ERR') && ((int) $this->data->error > 0)) {
-			$this->status = FALSE;
+		if (isset($this->data->status) && isset($this->data->error)) {
+			if (($this->data->status == 'ERR') && ((int) $this->data->error > 0)) {
+				$this->status = FALSE;
+			} else {
+				$this->status = TRUE;
+			}
 		} else {
-			$this->status = TRUE;
+			$this->status = FALSE;
 		}
 
-		$this->error = ( (int) $this->data->error > 0 ? (int) $this->data->error : 0 );
-		$this->error_string = $this->data->error_string;
+		if (isset($this->data->error)) {
+			$this->error = ( (int) $this->data->error > 0 ? (int) $this->data->error : 0 );
+		} else {
+			$this->error = 0;
+		}
+
+		if (isset($this->data->error_string)) {
+			$this->error_string = $this->data->error_string;
+		} else {
+			$this->error_string = '';
+		}
 	}
 
 	/**
