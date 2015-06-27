@@ -1,10 +1,17 @@
 CHANGELOG
 =========
 
+Version 1.0.5
+-------------
+
+* handle some notice and warning error messages
+
+
 Version 1.0.4
 -------------
 
 * fix getStatus() to reflect correct request status
+
 
 Version 1.0.3
 -------------
@@ -12,14 +19,19 @@ Version 1.0.3
 * urlencode most variable on _setWebservicesUrl()
 * run _setWebservicesUrl() on getWebservicesUrl()
 
+
 Version 1.0.2
 -------------
+
+* code cleanups
+
 
 Version 1.0.1
 -------------
 
 * getResponse() returns Webservices_Response object
 * add Webservices_Response class
+
 
 Version 1.0.0
 -------------
