@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+Version 1.0.6
+-------------
+
+* fix getStatus() to returns TRUE on array data responds, such as from sendSms() or getOutgoing()
+
 Version 1.0.5
 -------------
 

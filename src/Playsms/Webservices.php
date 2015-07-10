@@ -65,7 +65,7 @@ class Webservices {
 
 	/**
 	 * Fetch content from URL
-	 * 
+	 *
 	 * @param string $query_string
 	 *        Webservices URL
 	 */
@@ -82,16 +82,20 @@ class Webservices {
 	private function _Populate() {
 		$this->data = json_decode($this->response);
 		
-		// getStatus() FALSE upon receiving status ERR and a non-zero error
+		// getStatus() FALSE upon receiving status ERR or a non-zero error
 		// else set as TRUE
-		if (isset($this->data->status) && isset($this->data->error)) {
-			if (($this->data->status == 'ERR') && ((int) $this->data->error > 0)) {
-				$this->status = FALSE;
-			} else {
-				$this->status = TRUE;
-			}
+		if (is_array($this->data->data)) {
+			$this->status = TRUE;
 		} else {
-			$this->status = FALSE;
+			if (isset($this->data->status) && isset($this->data->error)) {
+				if (($this->data->status == 'ERR') || ((int) $this->data->error > 0)) {
+					$this->status = FALSE;
+				} else {
+					$this->status = TRUE;
+				}
+			} else {
+				$this->status = FALSE;
+			}
 		}
 		
 		if (isset($this->data->error)) {
@@ -198,7 +202,7 @@ class Webservices {
 
 	/**
 	 * Get current webservices URL
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getWebservicesUrl() {
@@ -209,7 +213,7 @@ class Webservices {
 
 	/**
 	 * Get raw response data
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getResponse() {
@@ -218,7 +222,7 @@ class Webservices {
 
 	/**
 	 * Get JSON decoded data as an object
-	 * 
+	 *
 	 * @return object
 	 */
 	public function getData() {
@@ -227,7 +231,7 @@ class Webservices {
 
 	/**
 	 * Get status
-	 * 
+	 *
 	 * @return boolean
 	 */
 	public function getStatus() {
@@ -236,7 +240,7 @@ class Webservices {
 
 	/**
 	 * Get error code
-	 * 
+	 *
 	 * @return integer
 	 */
 	public function getError() {
@@ -245,7 +249,7 @@ class Webservices {
 
 	/**
 	 * Get error string
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getErrorString() {
@@ -258,7 +262,7 @@ class Webservices {
 	/**
 	 * Get webservices token.
 	 * This operation can also be used as a login mechanism.
-	 * 
+	 *
 	 * @return mixed
 	 */
 	public function getToken() {
@@ -270,7 +274,7 @@ class Webservices {
 	/**
 	 * Set new webservices token.
 	 * This operation can also be used as a change password/token mechanism.
-	 * 
+	 *
 	 * @return mixed
 	 */
 	public function setToken() {
@@ -281,7 +285,7 @@ class Webservices {
 
 	/**
 	 * Get user's credit
-	 * 
+	 *
 	 * @return mixed
 	 */
 	public function getCredit() {
@@ -292,7 +296,7 @@ class Webservices {
 
 	/**
 	 * Send SMS to mobile numbers
-	 * 
+	 *
 	 * @return mixed
 	 */
 	public function sendSms() {
@@ -303,7 +307,7 @@ class Webservices {
 
 	/**
 	 * Send SMS to groups
-	 * 
+	 *
 	 * @return mixed
 	 */
 	public function sendSmsToGroup() {
@@ -314,7 +318,7 @@ class Webservices {
 
 	/**
 	 * Get list of outgoing SMS and delivery statuses
-	 * 
+	 *
 	 * @return mixed
 	 */
 	public function getOutgoing() {
@@ -325,7 +329,7 @@ class Webservices {
 
 	/**
 	 * Get list of incoming SMS
-	 * 
+	 *
 	 * @return mixed
 	 */
 	public function getIncoming() {
@@ -336,7 +340,7 @@ class Webservices {
 
 	/**
 	 * Get list of SMS in user's inbox
-	 * 
+	 *
 	 * @return mixed
 	 */
 	public function getInbox() {
@@ -347,7 +351,7 @@ class Webservices {
 
 	/**
 	 * Get list of SMS in Sandbox
-	 * 
+	 *
 	 * @return mixed
 	 */
 	public function getSandbox() {
@@ -358,7 +362,7 @@ class Webservices {
 
 	/**
 	 * Get list of phonebook contacts
-	 * 
+	 *
 	 * @return mixed
 	 */
 	public function getPhonebookContacts() {
@@ -369,7 +373,7 @@ class Webservices {
 
 	/**
 	 * Get list of phonebook groups
-	 * 
+	 *
 	 * @return mixed
 	 */
 	public function getPhonebookGroups() {
