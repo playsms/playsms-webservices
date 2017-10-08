@@ -84,7 +84,7 @@ class Webservices {
 		
 		// getStatus() FALSE upon receiving status ERR or a non-zero error
 		// else set as TRUE
-		if (is_array($this->data->data)) {
+		if (isset($this->data->data) and is_array($this->data->data)) {
 			$this->status = TRUE;
 		} else {
 			if (isset($this->data->status) && isset($this->data->error)) {
